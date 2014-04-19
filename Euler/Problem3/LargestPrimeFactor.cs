@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Problem3
 {
-    class LargestPrimeFactor
+    public class LargestPrimeFactor
     {
         const long NUMBER = 600851475143;
         static void Main(string[] args)
@@ -65,7 +65,11 @@ namespace Problem3
             if (number <= 1)
                 return false;
 
-            for (long i = 2; i * i < number; ++i)
+            if (number == 2)
+                return true;
+
+
+            for (long i = 3; i * i <= number; i += 2)
                 if (number % i == 0)
                     return false;
             return true;

@@ -12,6 +12,7 @@ namespace Problem4
         
         static void Main(string[] args)
         {
+
             Stopwatch timer = new Stopwatch();
             timer.Start();
             //Find the largest palindrome, then test if it can be obtain by 
@@ -21,11 +22,8 @@ namespace Problem4
             int minLimit = (int)Math.Pow(Math.Pow(10, NB_DIGIT - 1), 2);
 
 
-            for (int palindrome = maxHalf * maxHalf; palindrome >= minLimit; --palindrome )
+            foreach (int palindrome in NextPalindrome())
             {
-                while (!IsPalindrome(palindrome))
-                    palindrome--;
-
                 if (IsProductOfNDigits(palindrome, NB_DIGIT))
                 {
                     timer.Stop();
@@ -51,6 +49,45 @@ namespace Problem4
             return false;
         }
 
+        public static IEnumerable<int> NextPalindrome()
+        {
+            int maxHalf = (int)Math.Pow(10, NB_DIGIT) - 1;
+            //hardcode here for 3 digits
+            for (int i = maxHalf; i >= 10; --i)
+                yield return MakePalindrome(i);
+
+            for (int i = maxHalf; i >= 100; --i)
+                yield return MakePalindrome(i, true);
+            
+        }
+
+        /*
+         * Return a palindrome where half is the left side
+         * If odd is true, the palindrome will have an odd number 
+         * of digits, with the last digit of half as the middle digit
+         */
+        public static int MakePalindrome(int half, bool odd = false)
+        {
+            List<int> list = new List<int>();
+            int tmp = half;
+            while (tmp != 0)
+            {
+                list.Add(tmp % 10);
+                tmp /= 10;
+            }
+            //List contain the digits of half in reverse order
+            int palindrome = half * (int)Math.Pow(10, NB_DIGIT);
+
+            int i = (odd) ? 1 : 0;
+            if (odd) palindrome /= 10;
+            for(; i < list.Count; ++i)
+            {
+                palindrome += list[i] * (int)Math.Pow(10, list.Count - i-1);
+            }
+
+            return palindrome;
+
+        }
 
         //Could do some optimization here!
         public static bool IsPalindrome(int num)

@@ -6,18 +6,17 @@ using System.Diagnostics;
 
 using Problem3;
 
-namespace Problem7
+namespace Problem10
 {
-    class NthPrime
+    class SumPrime
     {
-        const int N = 1000001;
         static void Main(string[] args)
         {
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            long prime = LargestPrimeFactor.GetNextPrime().Skip(N-1).First();
+            long sum = LargestPrimeFactor.GetNextPrime().TakeWhile(item => item < 2000000).Aggregate((a, b) => a + b);
             timer.Stop();
-            Console.WriteLine(N + "th prime is: " + prime + " time : " + timer.ElapsedMilliseconds);
+            Console.WriteLine(sum + " time : " + timer.ElapsedMilliseconds);
         }
     }
 }

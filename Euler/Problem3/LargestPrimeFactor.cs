@@ -47,13 +47,16 @@ namespace Problem3
             yield return 2;
             yield return 3;
 
-            long prime = 3;
+            long k = 1;
             while(true)
             {
-                prime += 2;
-                
-                if (IsPrime(prime))
-                    yield return prime;
+                long prime = 6 * k - 1;
+
+                for (int i = 0; i < 3; ++i, ++prime)
+                    if (IsPrime(prime))
+                        yield return prime;
+
+                    k++;
             }
         }
 
@@ -67,10 +70,11 @@ namespace Problem3
 
             if (number == 2)
                 return true;
+            if (number % 2 == 0 || number % 3 == 0)
+                return false;
 
-
-            for (long i = 3; i * i <= number; i += 2)
-                if (number % i == 0)
+            for (long divisor = 5; divisor * divisor <= number; divisor += 6)
+                if (number % divisor == 0 || number % (divisor + 2) == 0)
                     return false;
             return true;
         }
